@@ -42,6 +42,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS 
+"	002	09-Jun-2009	Made mapping configurable. 
 "	001	30-May-2009	file creation
 
 " Avoid installing twice or when in unsupported Vim version. 
@@ -75,6 +76,9 @@ function! s:WORDComplete( findstart, base )
     endif
 endfunction
 
-inoremap <C-x><C-w> <C-o>:set completefunc=<SID>WORDComplete<CR><C-x><C-u>
+inoremap <Plug>WORDComplete <C-o>:set completefunc=<SID>WORDComplete<CR><C-x><C-u>
+if ! hasmapto('<Plug>WORDComplete', 'i')
+    imap <C-x><C-w> <Plug>WORDComplete
+endif
 
 " vim: set sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
