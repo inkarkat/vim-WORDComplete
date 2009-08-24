@@ -42,6 +42,11 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS 
+"	003	07-Aug-2009	Using a map-expr instead of i_CTRL-O to set
+"				'completefunc', as the temporary leave of insert
+"				mode caused a later repeat via '.' to only
+"				insert the completed fragment, not the entire
+"				inserted text.  
 "	002	09-Jun-2009	Made mapping configurable. 
 "	001	30-May-2009	file creation
 
@@ -59,7 +64,7 @@ function! s:GetCompleteOption()
     return (exists('b:WORDComplete_complete') ? b:WORDComplete_complete : g:WORDComplete_complete)
 endfunction
 
-function! s:WORDComplete( findstart, base )
+function! WORDComplete#WORDComplete( findstart, base )
     if a:findstart
 	" Locate the start of the WORD. 
 	let l:startCol = searchpos('\S*\%#', 'bn', line('.'))[1]
@@ -76,7 +81,11 @@ function! s:WORDComplete( findstart, base )
     endif
 endfunction
 
-inoremap <Plug>WORDComplete <C-o>:set completefunc=<SID>WORDComplete<CR><C-x><C-u>
+function! s:WORDCompleteExpr()
+    set completefunc=WORDComplete#WORDComplete
+    return "\<C-x>\<C-u>"
+endfunction
+inoremap <script> <expr> <Plug>WORDComplete <SID>WORDCompleteExpr()
 if ! hasmapto('<Plug>WORDComplete', 'i')
     imap <C-x><C-w> <Plug>WORDComplete
 endif
