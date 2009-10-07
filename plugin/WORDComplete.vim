@@ -26,9 +26,10 @@
 " CONFIGURATION:
 "   Analoguous to the 'complete' option, you can specify which buffers will be
 "   scanned for completion candidates. Currently, only '.' (current buffer) and
-"   'w' (buffers from other windows) are supported. 
-"	g:WORDComplete_complete string (default: ".,w")
-"	b:WORDComplete_complete string
+"   'w' (buffers from other windows) are supported. >
+"	let g:WORDComplete_complete string = '.,w'
+"   The global setting can be overridden for a particular buffer
+"   (b:WORDComplete_complete). 
 "   
 " INTEGRATION:
 " LIMITATIONS:
