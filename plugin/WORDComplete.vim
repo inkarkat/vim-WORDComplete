@@ -12,11 +12,11 @@
 "   delimited by whitespace. 
 "
 " USAGE:
-" i_CTRL-X_CTRL-W	Find matches for WORDs that start with the non-blank
+" <i_CTRL-X_CTRL-W>	Find matches for WORDs that start with the non-blank
 "			characters in front of the cursor and end at the next
 "			whitespace. 
 "			
-"   In insert mode, invoke the WORD completion via CTRL-W. 
+"   In insert mode, invoke the WORD completion via CTRL-X CTRL-W. 
 "   You can then search forward and backward via CTRL-N / CTRL-P, as usual. 
 "
 " INSTALLATION:
@@ -43,6 +43,12 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS 
+"	004	08-Oct-2009	The match must start at the beginning of the
+"				line or after whitespace, or else "kar" will
+"				complete "karound" from "workaround". Only if no
+"				matches are obtained in this way, a relaxed
+"				search will offer matches starting anywhere, as
+"				before. 
 "	003	07-Aug-2009	Using a map-expr instead of i_CTRL-O to set
 "				'completefunc', as the temporary leave of insert
 "				mode caused a later repeat via '.' to only
@@ -75,9 +81,20 @@ function! WORDComplete#WORDComplete( findstart, base )
 	return l:startCol - 1 " Return byte index, not column. 
     else
 	" Find matches starting with a:base and ending with whitespace or the
-	" end of the line. 
+	" end of the line. The match must start at the beginning of the line or
+	" after whitespace. 
 	let l:matches = []
-	call CompleteHelper#FindMatches( l:matches, '\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()} )
+	call CompleteHelper#FindMatches( l:matches, '\%(^\|\s\)\zs\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()} )
+	if empty(l:matches)
+	    " In case there are no matches, relax the restriction that the match
+	    " must start after whitespace. This allows to complete "--" from
+	    " "'--foo-bar'" (with an additional trailing "'" character, though),
+	    " but also to complete "pos(" from "searchpos([1,2,3])". 
+	    echohl ModeMsg
+	    echo '-- User defined completion (^U^N^P) -- Relaxed search...'
+	    echohl None
+	    call CompleteHelper#FindMatches( l:matches, '\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()} )
+	endif
 	return l:matches
     endif
 endfunction
