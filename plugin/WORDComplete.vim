@@ -37,7 +37,7 @@
 " KNOWN PROBLEMS:
 " TODO:
 "
-" Copyright: (C) 2009 by Ingo Karkat
+" Copyright: (C) 2009 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'. 
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -103,9 +103,9 @@ function! s:WORDCompleteExpr()
     set completefunc=WORDComplete#WORDComplete
     return "\<C-x>\<C-u>"
 endfunction
-inoremap <script> <expr> <Plug>WORDComplete <SID>WORDCompleteExpr()
-if ! hasmapto('<Plug>WORDComplete', 'i')
-    imap <C-x><C-w> <Plug>WORDComplete
+inoremap <script> <expr> <Plug>(WORDComplete) <SID>WORDCompleteExpr()
+if ! hasmapto('<Plug>(WORDComplete)', 'i')
+    imap <C-x><C-w> <Plug>(WORDComplete)
 endif
 
 " vim: set sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
