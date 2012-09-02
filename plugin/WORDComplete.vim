@@ -1,48 +1,19 @@
 " WORDComplete.vim: Insert mode completion that completes an entire sequence of
 " non-blank characters.
 "
-" DESCRIPTION:
-"   The built-in insert mode completion |i_CTRL-N| searches for keywords.
-"   Depending on the 'iskeyword' setting, this can be very fine-grained, so that
-"   fragments like '--quit-if-one-screen' or '/^Vim\%((\a\+)\)\=:E123/' can take
-"   many completion commands and are thus tedious to complete.
-"   This plugin offers completion of sequences of non-blank characters (a.k.a.
-"   |WORD|s), i.e. everything separated by whitespace or the start / end of
-"   line. With this, one can quickly complete entire text fragments which are
-"   delimited by whitespace.
-"
-" USAGE:
-" <i_CTRL-X_CTRL-W>	Find matches for WORDs that start with the non-blank
-"			characters in front of the cursor and end at the next
-"			whitespace.
-"
-"   In insert mode, invoke the WORD completion via CTRL-X CTRL-W.
-"   You can then search forward and backward via CTRL-N / CTRL-P, as usual.
-"
-" INSTALLATION:
 " DEPENDENCIES:
-"   - CompleteHelper.vim autoload script.
+"   - Requires Vim 7.0 or higher.
+"   - WORDComplete.vim autoload script
 "
-" CONFIGURATION:
-"   Analoguous to the 'complete' option, you can specify which buffers will be
-"   scanned for completion candidates. Currently, only '.' (current buffer) and
-"   'w' (buffers from other windows) are supported. >
-"	let g:WORDComplete_complete string = '.,w'
-"   The global setting can be overridden for a particular buffer
-"   (b:WORDComplete_complete).
-"
-" INTEGRATION:
-" LIMITATIONS:
-" ASSUMPTIONS:
-" KNOWN PROBLEMS:
-" TODO:
-"
-" Copyright: (C) 2009 Ingo Karkat
+" Copyright: (C) 2009-2012 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	005	20-Aug-2012	Split off functions into separate autoload
+"				script and documentation into dedicated help
+"				file.
 "	004	08-Oct-2009	The match must start at the beginning of the
 "				line or after whitespace, or else "kar" will
 "				complete "karound" from "workaround". Only if no
@@ -63,47 +34,16 @@ if exists('g:loaded_WORDComplete') || (v:version < 700)
 endif
 let g:loaded_WORDComplete = 1
 
+"- configuration ---------------------------------------------------------------
+
 if ! exists('g:WORDComplete_complete')
     let g:WORDComplete_complete = '.,w'
 endif
 
-function! s:GetCompleteOption()
-    return (exists('b:WORDComplete_complete') ? b:WORDComplete_complete : g:WORDComplete_complete)
-endfunction
 
-function! WORDComplete#WORDComplete( findstart, base )
-    if a:findstart
-	" Locate the start of the WORD.
-	let l:startCol = searchpos('\S*\%#', 'bn', line('.'))[1]
-	if l:startCol == 0
-	    let l:startCol = col('.')
-	endif
-	return l:startCol - 1 " Return byte index, not column.
-    else
-	" Find matches starting with a:base and ending with whitespace or the
-	" end of the line. The match must start at the beginning of the line or
-	" after whitespace.
-	let l:matches = []
-	call CompleteHelper#FindMatches( l:matches, '\%(^\|\s\)\zs\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()} )
-	if empty(l:matches)
-	    " In case there are no matches, relax the restriction that the match
-	    " must start after whitespace. This allows to complete "--" from
-	    " "'--foo-bar'" (with an additional trailing "'" character, though),
-	    " but also to complete "pos(" from "searchpos([1,2,3])".
-	    echohl ModeMsg
-	    echo '-- User defined completion (^U^N^P) -- Relaxed search...'
-	    echohl None
-	    call CompleteHelper#FindMatches( l:matches, '\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()} )
-	endif
-	return l:matches
-    endif
-endfunction
+"- mappings --------------------------------------------------------------------
 
-function! s:WORDCompleteExpr()
-    set completefunc=WORDComplete#WORDComplete
-    return "\<C-x>\<C-u>"
-endfunction
-inoremap <script> <silent> <expr> <Plug>(WORDComplete) <SID>WORDCompleteExpr()
+inoremap <silent> <expr> <Plug>(WORDComplete) WORDComplete#Expr()
 if ! hasmapto('<Plug>(WORDComplete)', 'i')
     imap <C-x><C-w> <Plug>(WORDComplete)
 endif
