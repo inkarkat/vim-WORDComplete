@@ -25,7 +25,7 @@ by whitespace.
 
 SEE ALSO								     *
 
-- Check out the CompleteHelper.vim plugin page (vimscript #3914) for a full
+- Check out the |CompleteHelper.vim| plugin page (vimscript #3914) for a full
   list of insert mode completions powered by it.
 
 ==============================================================================
@@ -54,7 +54,7 @@ To uninstall, use the |:RmVimball| command.
 DEPENDENCIES					   *WORDComplete-dependencies*
 
 - Requires Vim 7.0 or higher.
-- Requires the CompleteHelper.vim plugin (vimscript #3914).
+- Requires the |CompleteHelper.vim| plugin (vimscript #3914).
 
 ==============================================================================
 CONFIGURATION					  *WORDComplete-configuration*
