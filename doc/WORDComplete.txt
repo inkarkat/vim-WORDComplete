@@ -30,14 +30,14 @@ SEE ALSO								     *
 
 ==============================================================================
 USAGE							  *WORDComplete-usage*
-							     *i_CTRL-X_CTRL-W*
-CTRL-X CTRL-W		Find matches for WORDs that start with the non-blank
-			characters in front of the cursor and end at the next
-			whitespace.
 
 In insert mode, invoke the WORD completion via CTRL-X CTRL-W.
 You can then search forward and backward via CTRL-N / CTRL-P, as usual.
 
+							     *i_CTRL-X_CTRL-W*
+CTRL-X CTRL-W		Find matches for WORDs that start with the non-blank
+			characters in front of the cursor and end at the next
+			whitespace.
 EXAMPLE							*WORDComplete-example*
 
 ==============================================================================
@@ -63,9 +63,9 @@ For a permanent configuration, put the following commands into your |vimrc|:
 
 			   *b:WORDComplete_complete* *g:WORDComplete_complete*
 Analoguous to the 'complete' option, you can specify which buffers will be
-scanned for completion candidates. Currently, only '.' (current buffer) and
-'w' (buffers from other windows) are supported. >
-    let g:WORDComplete_complete string = '.,w'
+scanned for completion candidates. Currently, '.' (current buffer), 'w'
+(buffers from other windows), and 'b' (other listed buffers) are supported. >
+    let g:WORDComplete_complete string = '.,w,b'
 The global setting can be overridden for a particular buffer
 (b:WORDComplete_complete).
 
