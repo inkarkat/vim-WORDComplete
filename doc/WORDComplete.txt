@@ -68,7 +68,12 @@ scanned for completion candidates. Currently, '.' (current buffer), 'w'
     let g:WORDComplete_complete string = '.,w,b'
 The global setting can be overridden for a particular buffer
 (b:WORDComplete_complete).
-
+							  *WORDComplete-remap*
+If you want to use a different mapping, map your keys to the
+<Plug>(WORDComplete) mapping target _before_ sourcing the script (e.g.
+in your |vimrc|): >
+    imap <C-x><C-w> <Plug>(WORDComplete)
+<
 ==============================================================================
 LIMITATIONS					    *WORDComplete-limitations*
 
