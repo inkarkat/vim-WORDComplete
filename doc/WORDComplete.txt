@@ -38,16 +38,26 @@ You can then search forward and backward via CTRL-N / CTRL-P, as usual.
 CTRL-X CTRL-W		Find matches for WORDs that start with the non-blank
 			characters in front of the cursor and end at the next
 			whitespace.
+			First, a match must start after whitespace (or at the
+			beginning of the line); if that returns no results, it
+			may match anywhere.
+
 EXAMPLE							*WORDComplete-example*
+
+To query the entire command argument --foo-bar (when "-" is not part of
+'iskeyword'), just type "--f" and trigger the completion.
+
+With the relaxed search, "pos(" will complete the entire call of
+    searchpos([1,2,3]) ~
 
 ==============================================================================
 INSTALLATION					   *WORDComplete-installation*
 
 This script is packaged as a |vimball|. If you have the "gunzip" decompressor
-in your PATH, simply edit the *.vba.gz package in Vim; otherwise, decompress
+in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
 the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
 vimball or via the |:UseVimball| command. >
-    vim WORDComplete.vba.gz
+    vim WORDComplete*.vmb.gz
     :so %
 To uninstall, use the |:RmVimball| command.
 
