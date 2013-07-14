@@ -4,7 +4,7 @@
 " DEPENDENCIES:
 "   - CompleteHelper.vim autoload script
 "
-" Copyright: (C) 2009-2012 Ingo Karkat
+" Copyright: (C) 2009-2013 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -44,7 +44,7 @@ function! WORDComplete#WORDComplete( findstart, base )
 	" end of the line. The match must start at the beginning of the line or
 	" after whitespace.
 	let l:matches = []
-	call CompleteHelper#FindMatches( l:matches, '\%(^\|\s\)\zs\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()} )
+	call CompleteHelper#FindMatches(l:matches, '\%(^\|\s\)\zs\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()})
 	if empty(l:matches)
 	    " In case there are no matches, relax the restriction that the match
 	    " must start after whitespace. This allows to complete "--" from
@@ -53,7 +53,7 @@ function! WORDComplete#WORDComplete( findstart, base )
 	    echohl ModeMsg
 	    echo '-- User defined completion (^U^N^P) -- Relaxed search...'
 	    echohl None
-	    call CompleteHelper#FindMatches( l:matches, '\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()} )
+	    call CompleteHelper#FindMatches(l:matches, '\V' . escape(a:base, '\') . '\S\+', {'complete': s:GetCompleteOption()})
 	endif
 	return l:matches
     endif
