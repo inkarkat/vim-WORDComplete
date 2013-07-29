@@ -1,8 +1,8 @@
-" WORDComplete.vim: Insert mode completion that completes an entire sequence of
-" non-blank characters.
+" WORDComplete.vim: Insert mode completion that completes an entire sequence of non-blank characters.
 "
 " DEPENDENCIES:
 "   - CompleteHelper.vim autoload script
+"   - CompleteHelper/Repeat.vim autoload script
 "
 " Copyright: (C) 2009-2013 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
@@ -10,6 +10,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	006	15-Jul-2013	Add support for repeat of completion.
 "	005	20-Aug-2012	Split off functions into separate autoload
 "				script and documentation into dedicated help
 "				file.
@@ -32,6 +33,16 @@ function! s:GetCompleteOption()
 endfunction
 
 function! WORDComplete#WORDComplete( findstart, base )
+    if s:repeatCnt
+	if a:findstart
+	    return col('.') - 1
+	else
+	    let l:matches = []
+	    call CompleteHelper#FindMatches(l:matches, '\V\<' . escape(s:fullText, '\') . '\zs\s\+\S\+', {'complete': s:GetCompleteOption()})
+	    return l:matches
+	endif
+    endif
+
     if a:findstart
 	" Locate the start of the WORD.
 	let l:startCol = searchpos('\S*\%#', 'bn', line('.'))[1]
@@ -61,6 +72,9 @@ endfunction
 
 function! WORDComplete#Expr()
     set completefunc=WORDComplete#WORDComplete
+
+    let s:repeatCnt = 0 " Important!
+    let [s:repeatCnt, l:addedText, s:fullText] = CompleteHelper#Repeat#TestForRepeat()
     return "\<C-x>\<C-u>"
 endfunction
 
