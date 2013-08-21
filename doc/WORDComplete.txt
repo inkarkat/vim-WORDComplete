@@ -41,6 +41,9 @@ CTRL-X CTRL-W		Find matches for WORDs that start with the non-blank
 			First, a match must start after whitespace (or at the
 			beginning of the line); if that returns no results, it
 			may match anywhere.
+			Further use of CTRL-X a will copy the text including
+			the next WORDs following the previous expansion in
+			other contexts.
 
 EXAMPLE							*WORDComplete-example*
 
@@ -75,7 +78,7 @@ For a permanent configuration, put the following commands into your |vimrc|:
 Analoguous to the 'complete' option, you can specify which buffers will be
 scanned for completion candidates. Currently, '.' (current buffer), 'w'
 (buffers from other windows), and 'b' (other listed buffers) are supported. >
-    let g:WORDComplete_complete string = '.,w,b'
+    let g:WORDComplete_complete = '.,w,b'
 The global setting can be overridden for a particular buffer
 (b:WORDComplete_complete).
 							  *WORDComplete-remap*
@@ -103,7 +106,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2009-2012 Ingo Karkat
+Copyright: (C) 2009-2013 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
