@@ -10,6 +10,9 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	007	30-Jul-2013	Initialize s:repeatCnt because it not only
+"				caused errors in the tests, but also when used
+"				in AutoComplPop.
 "	006	15-Jul-2013	Add support for repeat of completion.
 "	005	20-Aug-2012	Split off functions into separate autoload
 "				script and documentation into dedicated help
@@ -32,6 +35,7 @@ function! s:GetCompleteOption()
     return (exists('b:WORDComplete_complete') ? b:WORDComplete_complete : g:WORDComplete_complete)
 endfunction
 
+let s:repeatCnt = 0
 function! WORDComplete#WORDComplete( findstart, base )
     if s:repeatCnt
 	if a:findstart
