@@ -10,6 +10,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	008	22-Aug-2013	Add visual mode mapping to select the used base.
 "	007	30-Jul-2013	Initialize s:repeatCnt because it not only
 "				caused errors in the tests, but also when used
 "				in AutoComplPop.
@@ -48,12 +49,16 @@ function! WORDComplete#WORDComplete( findstart, base )
     endif
 
     if a:findstart
-	" Locate the start of the WORD.
-	let l:startCol = searchpos('\S*\%#', 'bn', line('.'))[1]
-	if l:startCol == 0
-	    let l:startCol = col('.')
+	if s:selectedBaseCol
+	    return s:selectedBaseCol - 1    " Return byte index, not column.
+	else
+	    " Locate the start of the WORD.
+	    let l:startCol = searchpos('\S*\%#', 'bn', line('.'))[1]
+	    if l:startCol == 0
+		let l:startCol = col('.')
+	    endif
+	    return l:startCol - 1 " Return byte index, not column.
 	endif
-	return l:startCol - 1 " Return byte index, not column.
     else
 	" Find matches starting with a:base and ending with whitespace or the
 	" end of the line. The match must start at the beginning of the line or
@@ -75,11 +80,19 @@ function! WORDComplete#WORDComplete( findstart, base )
 endfunction
 
 function! WORDComplete#Expr()
+    let s:selectedBaseCol = 0
     set completefunc=WORDComplete#WORDComplete
 
     let s:repeatCnt = 0 " Important!
     let [s:repeatCnt, l:addedText, s:fullText] = CompleteHelper#Repeat#TestForRepeat()
     return "\<C-x>\<C-u>"
+endfunction
+
+function! WORDComplete#Selected()
+    call WORDComplete#Expr()
+    let s:selectedBaseCol = col("'<")
+
+    return "g`>" . (col("'>") == (col('$')) ? 'a' : 'i') . "\<C-x>\<C-u>"
 endfunction
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
