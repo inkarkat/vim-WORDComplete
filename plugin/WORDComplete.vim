@@ -5,12 +5,13 @@
 "   - Requires Vim 7.0 or higher.
 "   - WORDComplete.vim autoload script
 "
-" Copyright: (C) 2009-2012 Ingo Karkat
+" Copyright: (C) 2009-2013 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"	007	22-Aug-2013	Add visual mode mapping to select the used base.
 "	006	03-Sep-2012	Add value "b" (other listed buffers) to the
 "				plugin's 'complete' option offered by
 "				CompleteHelper.vim 1.20.
@@ -47,8 +48,16 @@ endif
 "- mappings --------------------------------------------------------------------
 
 inoremap <silent> <expr> <Plug>(WORDComplete) WORDComplete#Expr()
+nnoremap <silent> <expr> <SID>(WORDComplete) WORDComplete#Selected()
+" Note: Must leave selection first; cannot do that inside the expression mapping
+" because the visual selection marks haven't been set there yet.
+vnoremap <silent> <script> <Plug>(WORDComplete) <C-\><C-n><SID>(WORDComplete)
+
 if ! hasmapto('<Plug>(WORDComplete)', 'i')
     imap <C-x><C-w> <Plug>(WORDComplete)
+endif
+if ! hasmapto('<Plug>(WORDComplete)', 'v')
+    vmap <C-x><C-w> <Plug>(WORDComplete)
 endif
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
