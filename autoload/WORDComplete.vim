@@ -4,7 +4,7 @@
 "   - CompleteHelper.vim autoload script
 "   - CompleteHelper/Repeat.vim autoload script
 "
-" Copyright: (C) 2009-2013 Ingo Karkat
+" Copyright: (C) 2009-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -43,7 +43,10 @@ function! WORDComplete#WORDComplete( findstart, base )
 	    return col('.') - 1
 	else
 	    let l:matches = []
-	    call CompleteHelper#FindMatches(l:matches, '\V\<' . escape(s:fullText, '\') . '\zs\s\+\S\+', {'complete': s:GetCompleteOption()})
+	    call CompleteHelper#FindMatches(l:matches, '\V\S\@<!' . escape(s:fullText, '\') . '\zs\_s\+\S\+', {'complete': s:GetCompleteOption(), 'processor': function('CompleteHelper#Repeat#Processor')})
+	    if empty(l:matches)
+		call CompleteHelper#Repeat#Clear()
+	    endif
 	    return l:matches
 	endif
     endif
@@ -85,6 +88,7 @@ function! WORDComplete#Expr()
 
     let s:repeatCnt = 0 " Important!
     let [s:repeatCnt, l:addedText, s:fullText] = CompleteHelper#Repeat#TestForRepeat()
+echomsg '****' string([s:repeatCnt, l:addedText, s:fullText])
     return "\<C-x>\<C-u>"
 endfunction
 
