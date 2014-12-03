@@ -53,8 +53,8 @@ EXAMPLE							*WORDComplete-example*
 To query the entire command argument --foo-bar (when "-" is not part of
 'iskeyword'), just type "--f" and trigger the completion.
 
-With the relaxed search, "pos(" will complete the entire call of
-    searchpos([1,2,3]) ~
+With the relaxed search, "pos(" will complete the entire call "pos([1,2,3])"
+found in "searchpos([1,2,3])".
 
 ==============================================================================
 INSTALLATION					   *WORDComplete-installation*
@@ -70,7 +70,8 @@ To uninstall, use the |:RmVimball| command.
 DEPENDENCIES					   *WORDComplete-dependencies*
 
 - Requires Vim 7.0 or higher.
-- Requires the |CompleteHelper.vim| plugin (vimscript #3914).
+- Requires the |CompleteHelper.vim| plugin (vimscript #3914), version 1.40 or
+  higher.
 
 ==============================================================================
 CONFIGURATION					  *WORDComplete-configuration*
@@ -102,14 +103,14 @@ IDEAS							  *WORDComplete-ideas*
 ==============================================================================
 HISTORY							*WORDComplete-history*
 
-GOAL
+1.00	RELEASEME
 First published version.
 
 0.01	30-May-2009
 Started development.
 
 ==============================================================================
-Copyright: (C) 2009-2013 Ingo Karkat
+Copyright: (C) 2009-2014 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
