@@ -10,6 +10,7 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.00.009	07-Apr-2014	Make repeat across lines work.
 "	008	22-Aug-2013	Add visual mode mapping to select the used base.
 "	007	30-Jul-2013	Initialize s:repeatCnt because it not only
 "				caused errors in the tests, but also when used
@@ -31,6 +32,8 @@
 "				inserted text.
 "	002	09-Jun-2009	Made mapping configurable.
 "	001	30-May-2009	file creation
+let s:save_cpo = &cpo
+set cpo&vim
 
 function! s:GetCompleteOption()
     return (exists('b:WORDComplete_complete') ? b:WORDComplete_complete : g:WORDComplete_complete)
@@ -43,7 +46,14 @@ function! WORDComplete#WORDComplete( findstart, base )
 	    return col('.') - 1
 	else
 	    let l:matches = []
-	    call CompleteHelper#FindMatches(l:matches, '\V\S\@<!' . escape(s:fullText, '\') . '\zs\_s\+\S\+', {'complete': s:GetCompleteOption(), 'processor': function('CompleteHelper#Repeat#Processor')})
+
+	    " Need to translate the embedded ^@ newline into the \n atom.
+	    let l:previousCompleteExpr = substitute(escape(s:fullText, '\'), '\n', '\\n', 'g')
+
+	    call CompleteHelper#FindMatches(l:matches,
+	    \	'\V\S\@<!' . l:previousCompleteExpr . '\zs\_s\+\S\+',
+	    \	{'complete': s:GetCompleteOption(), 'processor': function('CompleteHelper#Repeat#Processor')}
+	    \)
 	    if empty(l:matches)
 		call CompleteHelper#Repeat#Clear()
 	    endif
@@ -99,4 +109,6 @@ function! WORDComplete#Selected()
     return "g`>" . (col("'>") == (col('$')) ? 'a' : 'i') . "\<C-x>\<C-u>"
 endfunction
 
+let &cpo = s:save_cpo
+unlet s:save_cpo
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
