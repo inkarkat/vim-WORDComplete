@@ -5,13 +5,13 @@
 "   - Requires Vim 7.0 or higher.
 "   - WORDComplete.vim autoload script
 "
-" Copyright: (C) 2009-2013 Ingo Karkat
+" Copyright: (C) 2009-2014 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
-"	007	22-Aug-2013	Add visual mode mapping to select the used base.
+"   1.00.007	22-Aug-2013	Add visual mode mapping to select the used base.
 "	006	03-Sep-2012	Add value "b" (other listed buffers) to the
 "				plugin's 'complete' option offered by
 "				CompleteHelper.vim 1.20.
