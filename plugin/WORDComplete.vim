@@ -5,12 +5,15 @@
 "   - Requires Vim 7.0 or higher.
 "   - WORDComplete.vim autoload script
 "
-" Copyright: (C) 2009-2014 Ingo Karkat
+" Copyright: (C) 2009-2015 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.00.008	12-Jan-2015	Remove default g:WORDComplete_complete
+"				configuration and default to 'complete' option
+"				value instead.
 "   1.00.007	22-Aug-2013	Add visual mode mapping to select the used base.
 "	006	03-Sep-2012	Add value "b" (other listed buffers) to the
 "				plugin's 'complete' option offered by
@@ -37,13 +40,6 @@ if exists('g:loaded_WORDComplete') || (v:version < 700)
     finish
 endif
 let g:loaded_WORDComplete = 1
-
-"- configuration ---------------------------------------------------------------
-
-if ! exists('g:WORDComplete_complete')
-    let g:WORDComplete_complete = '.,w,b'
-endif
-
 
 "- mappings --------------------------------------------------------------------
 
