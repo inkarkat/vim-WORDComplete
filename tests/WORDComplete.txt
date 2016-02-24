@@ -1,0 +1,7 @@
+"	set my-script-31337-path-and-name-without-extension-11=%~dpn0 here
+" prefixed:this:crazy:name or prefixed:underscore:code:name, but not underscore:code:negative neither prefixed:bad:code:name.
+call FindMatchesInCurrentWindow(match, option)
+call FindMatchesInOtherWindows(matches, options)
+app --quit-if-one-screen --quit-for-special-handling --include=foo --exclude=bar
+	--quiet-errors
+	--quiet-info	--quiet-stuff
