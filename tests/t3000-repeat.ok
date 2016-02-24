@@ -1,0 +1,3 @@
+foo --quit-for-special-handling --include=foo
+fox --exclude=bar --quiet-errors --quiet-info	--quiet-stuff
+
