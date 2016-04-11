@@ -3,13 +3,17 @@
 " DEPENDENCIES:
 "   - CompleteHelper.vim autoload script
 "   - CompleteHelper/Repeat.vim autoload script
+"   - ingo/plugin/setting.vim autoload script
 "
-" Copyright: (C) 2009-2014 Ingo Karkat
+" Copyright: (C) 2009-2015 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.00.010	12-Jan-2015	Remove default g:WORDComplete_complete
+"				configuration and default to 'complete' option
+"				value instead.
 "   1.00.009	07-Apr-2014	Make repeat across lines work.
 "	008	22-Aug-2013	Add visual mode mapping to select the used base.
 "	007	30-Jul-2013	Initialize s:repeatCnt because it not only
@@ -36,7 +40,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! s:GetCompleteOption()
-    return (exists('b:WORDComplete_complete') ? b:WORDComplete_complete : g:WORDComplete_complete)
+    return ingo#plugin#setting#GetBufferLocal('WORDComplete_complete', &complete)
 endfunction
 
 let s:repeatCnt = 0
