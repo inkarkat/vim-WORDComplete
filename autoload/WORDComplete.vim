@@ -5,7 +5,7 @@
 "   - CompleteHelper/Repeat.vim autoload script
 "   - ingo/plugin/setting.vim autoload script
 "
-" Copyright: (C) 2009-2015 Ingo Karkat
+" Copyright: (C) 2009-2016 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -102,7 +102,7 @@ function! WORDComplete#Expr()
 
     let s:repeatCnt = 0 " Important!
     let [s:repeatCnt, l:addedText, s:fullText] = CompleteHelper#Repeat#TestForRepeat()
-echomsg '****' string([s:repeatCnt, l:addedText, s:fullText])
+"****D echomsg '****' string([s:repeatCnt, l:addedText, s:fullText])
     return "\<C-x>\<C-u>"
 endfunction
 
