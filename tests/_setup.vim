@@ -1,0 +1,1 @@
+runtime plugin/WORDComplete.vim
