@@ -92,6 +92,7 @@ If you want to use a different mapping, map your keys to the
 <Plug>(WORDComplete) mapping target _before_ sourcing the script (e.g.
 in your |vimrc|): >
     imap <C-x><C-w> <Plug>(WORDComplete)
+    vmap <C-x><C-w> <Plug>(WORDComplete)
 <
 ==============================================================================
 LIMITATIONS					    *WORDComplete-limitations*
@@ -112,7 +113,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2009-2015 Ingo Karkat
+Copyright: (C) 2009-2017 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
