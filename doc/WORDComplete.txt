@@ -117,7 +117,7 @@ https://github.com/inkarkat/vim-WORDComplete/issues or email (address below).
 ==============================================================================
 HISTORY							*WORDComplete-history*
 
-1.00	RELEASEME
+1.00	27-Sep-2017
 First published version.
 
 0.01	30-May-2009
