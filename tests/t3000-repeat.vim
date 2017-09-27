@@ -1,6 +1,6 @@
 " Test repeat of WORD completion.
 
-source ../helpers/insert.vim
+source ~/.vim/tests/CompleteHelper/helpers/insert.vim
 view WORDComplete.txt
 new
 
