@@ -4,7 +4,7 @@ set completefunc=WORDComplete#WORDComplete
 call WORDComplete#Expr()    " Initialize script variables.
 edit WORDComplete.txt
 
-source ../../vim-CompleteHelper/tests/helpers/completetest.vim
+runtime tests/helpers/completetest.vim
 call vimtest#StartTap()
 call vimtap#Plan(7)
 call IsMatchesInIsolatedLine('doesnotexist', [], 'no matches for doesnotexist')

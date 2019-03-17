@@ -5,7 +5,7 @@ call WORDComplete#Expr()    " Initialize script variables.
 let g:SelectBase = 'call WORDComplete#Selected()'
 edit WORDComplete.txt
 
-source ../../vim-CompleteHelper/tests/helpers/completetest.vim
+runtime tests/helpers/completetest.vim
 call vimtest#StartTap()
 call vimtap#Plan(5)
 call IsMatchesInContext('prefixed:', '', 'doesNotExist', [], 'no matches for doesNotExist')

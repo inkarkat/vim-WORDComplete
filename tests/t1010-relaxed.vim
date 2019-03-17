@@ -4,7 +4,7 @@ set completefunc=WORDComplete#WORDComplete
 call WORDComplete#Expr()    " Initialize script variables.
 edit WORDComplete.txt
 
-source ../../vim-CompleteHelper/tests/helpers/completetest.vim
+runtime tests/helpers/completetest.vim
 call vimtest#StartTap()
 call vimtap#Plan(3)
 call IsMatchesInIsolatedLine('cra', ['crazy:name'], 'relaxed match for cra')
