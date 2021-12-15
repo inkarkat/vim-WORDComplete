@@ -16,8 +16,16 @@ function! s:GetCompleteOption()
     return ingo#plugin#setting#GetBufferLocal('WORDComplete_complete', &complete)
 endfunction
 
+function! WORDComplete#WORDComplete( findstart, base ) abort
+    " Base is any non-keyword characters.
+    return s:Complete('\S*\%#', a:findstart, a:base)
+endfunction
+function! WORDComplete#WORDSameKeywordBaseComplete( findstart, base ) abort
+    " Base is any keyword characters and optionally a single unique non-keyword character (possibly occurring multiple times).
+    return s:Complete('\k*\(\S\)\%(\k*\1\)*\k*\%#', a:findstart, a:base)
+endfunction
 let s:repeatCnt = 0
-function! WORDComplete#WORDComplete( findstart, base )
+function! s:Complete( basePattern, findstart, base ) abort
     if s:repeatCnt
 	if a:findstart
 	    return col('.') - 1
@@ -42,8 +50,8 @@ function! WORDComplete#WORDComplete( findstart, base )
 	if s:selectedBaseCol
 	    return s:selectedBaseCol - 1    " Return byte index, not column.
 	else
-	    " Locate the start of the WORD.
-	    let l:startCol = searchpos('\S*\%#', 'bn', line('.'))[1]
+	    " Locate the start of a:basePattern.
+	    let l:startCol = searchpos(a:basePattern, 'bn', line('.'))[1]
 	    if l:startCol == 0
 		let l:startCol = col('.')
 	    endif
@@ -83,7 +91,7 @@ function! WORDComplete#Selected( completionFunction ) abort
     call WORDComplete#Expr(a:completionFunction)
     let s:selectedBaseCol = col("'<")
 
-    return "g`>" . (col("'>") == (col('$')) ? 'a' : 'i') . "\<C-x>\<C-u>"
+    return 'g`>' . (col("'>") == (col('$')) ? 'a' : 'i') . "\<C-x>\<C-u>"
 endfunction
 
 let &cpo = s:save_cpo

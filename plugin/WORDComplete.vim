@@ -19,6 +19,7 @@ let g:loaded_WORDComplete = 1
 "- mappings --------------------------------------------------------------------
 
 inoremap <silent> <expr> <Plug>(WORDComplete) WORDComplete#Expr('WORDComplete#WORDComplete')
+inoremap <silent> <expr> <Plug>(WORDSameKeywordBaseComplete) WORDComplete#Expr('WORDComplete#WORDSameKeywordBaseComplete')
 nnoremap <silent> <expr> <SID>(WORDComplete) WORDComplete#Selected('WORDComplete#WORDComplete')
 " Note: Must leave selection first; cannot do that inside the expression mapping
 " because the visual selection marks haven't been set there yet.
@@ -29,6 +30,9 @@ if ! hasmapto('<Plug>(WORDComplete)', 'i')
 endif
 if ! hasmapto('<Plug>(WORDComplete)', 'v')
     vmap <C-x><C-w> <Plug>(WORDComplete)
+endif
+if ! hasmapto('<Plug>(WORDSameKeywordBaseComplete)', 'i')
+    imap <C-x>g<C-w> <Plug>(WORDSameKeywordBaseComplete)
 endif
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
