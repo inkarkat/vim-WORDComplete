@@ -5,7 +5,7 @@
 "   - CompleteHelper/Repeat.vim autoload script
 "   - ingo/plugin/setting.vim autoload script
 "
-" Copyright: (C) 2009-2017 Ingo Karkat
+" Copyright: (C) 2009-2021 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -69,9 +69,9 @@ function! WORDComplete#WORDComplete( findstart, base )
     endif
 endfunction
 
-function! WORDComplete#Expr()
+function! WORDComplete#Expr( completionFunction ) abort
     let s:selectedBaseCol = 0
-    set completefunc=WORDComplete#WORDComplete
+    let &completefunc = a:completionFunction
 
     let s:repeatCnt = 0 " Important!
     let [s:repeatCnt, l:addedText, s:fullText] = CompleteHelper#Repeat#TestForRepeat()
@@ -79,8 +79,8 @@ function! WORDComplete#Expr()
     return "\<C-x>\<C-u>"
 endfunction
 
-function! WORDComplete#Selected()
-    call WORDComplete#Expr()
+function! WORDComplete#Selected( completionFunction ) abort
+    call WORDComplete#Expr(a:completionFunction)
     let s:selectedBaseCol = col("'<")
 
     return "g`>" . (col("'>") == (col('$')) ? 'a' : 'i') . "\<C-x>\<C-u>"
