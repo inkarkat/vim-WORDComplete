@@ -1,7 +1,7 @@
 " Test relaxed completion of non-blank characters within a word.
 
 set completefunc=WORDComplete#WORDComplete
-call WORDComplete#Expr()    " Initialize script variables.
+call WORDComplete#Expr('WORDComplete#WORDComplete')    " Initialize script variables.
 edit WORDComplete.txt
 
 runtime tests/helpers/completetest.vim

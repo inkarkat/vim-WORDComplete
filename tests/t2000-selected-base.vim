@@ -1,8 +1,8 @@
 " Test completion from selected base.
 
 set completefunc=WORDComplete#WORDComplete
-call WORDComplete#Expr()    " Initialize script variables.
-let g:SelectBase = 'call WORDComplete#Selected()'
+call WORDComplete#Expr('WORDComplete#WORDComplete')    " Initialize script variables.
+let g:SelectBase = "call WORDComplete#Selected('WORDComplete#WORDComplete')"
 edit WORDComplete.txt
 
 runtime tests/helpers/completetest.vim

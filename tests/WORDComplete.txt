@@ -5,3 +5,4 @@ call FindMatchesInOtherWindows(matches, options)
 app --quit-if-one-screen --quit-for-special-handling --include=foo --exclude=bar
 	--quiet-errors
 	--quiet-info	--quiet-stuff
+one@two#three$four%five%base one@two@three$four%five%six%base one@@two##three$$four%%five%%base
