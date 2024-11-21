@@ -130,7 +130,7 @@ https://github.com/inkarkat/vim-WORDComplete/issues or email (address below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 1.10    RELEASEME
+##### 1.10    21-Nov-2024
 - ENH: Add an alternative CTRL-X g CTRL-W insert mode mapping that only
   considers a unique non-keyword character for the completion base, to ease
   completion from a base that is not whitespace-delimited (e.g. from within
@@ -143,7 +143,7 @@ HISTORY
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2009-2021 Ingo Karkat -
+Copyright: (C) 2009-2024 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
