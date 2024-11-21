@@ -5,7 +5,7 @@
 "   - CompleteHelper/Repeat.vim autoload script
 "   - ingo/plugin/setting.vim autoload script
 "
-" Copyright: (C) 2009-2017 Ingo Karkat
+" Copyright: (C) 2009-2021 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -16,8 +16,16 @@ function! s:GetCompleteOption()
     return ingo#plugin#setting#GetBufferLocal('WORDComplete_complete', &complete)
 endfunction
 
+function! WORDComplete#WORDComplete( findstart, base ) abort
+    " Base is any non-keyword characters.
+    return s:Complete('\S*\%#', a:findstart, a:base)
+endfunction
+function! WORDComplete#WORDSameKeywordBaseComplete( findstart, base ) abort
+    " Base is any keyword characters and optionally a single unique non-keyword character (possibly occurring multiple times).
+    return s:Complete('\k*\(\S\)\%(\k*\1\)*\k*\%#', a:findstart, a:base)
+endfunction
 let s:repeatCnt = 0
-function! WORDComplete#WORDComplete( findstart, base )
+function! s:Complete( basePattern, findstart, base ) abort
     if s:repeatCnt
 	if a:findstart
 	    return col('.') - 1
@@ -42,8 +50,8 @@ function! WORDComplete#WORDComplete( findstart, base )
 	if s:selectedBaseCol
 	    return s:selectedBaseCol - 1    " Return byte index, not column.
 	else
-	    " Locate the start of the WORD.
-	    let l:startCol = searchpos('\S*\%#', 'bn', line('.'))[1]
+	    " Locate the start of a:basePattern.
+	    let l:startCol = searchpos(a:basePattern, 'bn', line('.'))[1]
 	    if l:startCol == 0
 		let l:startCol = col('.')
 	    endif
@@ -69,9 +77,9 @@ function! WORDComplete#WORDComplete( findstart, base )
     endif
 endfunction
 
-function! WORDComplete#Expr()
+function! WORDComplete#Expr( completionFunction ) abort
     let s:selectedBaseCol = 0
-    set completefunc=WORDComplete#WORDComplete
+    let &completefunc = a:completionFunction
 
     let s:repeatCnt = 0 " Important!
     let [s:repeatCnt, l:addedText, s:fullText] = CompleteHelper#Repeat#TestForRepeat()
@@ -79,11 +87,11 @@ function! WORDComplete#Expr()
     return "\<C-x>\<C-u>"
 endfunction
 
-function! WORDComplete#Selected()
-    call WORDComplete#Expr()
+function! WORDComplete#Selected( completionFunction ) abort
+    call WORDComplete#Expr(a:completionFunction)
     let s:selectedBaseCol = col("'<")
 
-    return "g`>" . (col("'>") == (col('$')) ? 'a' : 'i') . "\<C-x>\<C-u>"
+    return 'g`>' . (col("'>") == (col('$')) ? 'a' : 'i') . "\<C-x>\<C-u>"
 endfunction
 
 let &cpo = s:save_cpo

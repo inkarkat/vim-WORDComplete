@@ -1,14 +1,14 @@
 " Test repeat of WORD completion.
 
-source ~/.vim/tests/CompleteHelper/helpers/insert.vim
+runtime tests/helpers/insert.vim
 view WORDComplete.txt
 new
 
 call SetCompletion("\<C-x>\<C-w>")
-call SetCompleteExpr('WORDComplete#Expr')
+call SetCompleteExpr("WORDComplete#Expr('WORDComplete#WORDComplete')")
 
 call InsertRepeat('foo --quit', 1, 0)
-call InsertRepeat('fox --excl', 0, 0, 0, 0, 0)
+call InsertRepeat('fox --excl', 0, 0, 0, 0)
 
 call vimtest#SaveOut()
 call vimtest#Quit()

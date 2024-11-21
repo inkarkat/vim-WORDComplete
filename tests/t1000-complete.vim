@@ -1,10 +1,10 @@
 " Test completion of non-blank characters.
 
 set completefunc=WORDComplete#WORDComplete
-call WORDComplete#Expr()    " Initialize script variables.
+call WORDComplete#Expr('WORDComplete#WORDComplete')    " Initialize script variables.
 edit WORDComplete.txt
 
-source ~/.vim/tests/CompleteHelper/helpers/completetest.vim
+runtime tests/helpers/completetest.vim
 call vimtest#StartTap()
 call vimtap#Plan(7)
 call IsMatchesInIsolatedLine('doesnotexist', [], 'no matches for doesnotexist')

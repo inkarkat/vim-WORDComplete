@@ -1,0 +1,7 @@
+foo --quit-for-special-handling --include=foo
+call(--quit-for-special-handling --include=foo
+de%mo#--quit-for-special-handling --include=foo
+fox --exclude=bar --quiet-errors --quiet-info	--quiet-stuff
+return(--exclude=bar --quiet-errors --quiet-info	--quiet-stuff
+re%na#me$--exclude=bar --quiet-errors --quiet-info	--quiet-stuff
+

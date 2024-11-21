@@ -1,4 +1,4 @@
-WORD COMPLETE   
+WORD COMPLETE
 ===============================================================================
 _by Ingo Karkat_
 
@@ -7,7 +7,7 @@ DESCRIPTION
 
 The built-in insert mode completion i\_CTRL-N searches for keywords.
 Depending on the 'iskeyword' setting, this can be very fine-grained, so that
-fragments like '--quit-if-one-screen' or '/^Vim\%((\a\+)\)\=:E123/' can take
+fragments like '--quit-if-one-screen' or '/^Vim\\%((\\a\\+)\\)\\=:E123/' can take
 many completion commands and are thus tedious to complete.
 This plugin offers completion of sequences of non-blank characters (a.k.a.
 |WORD|s), i.e. everything separated by whitespace or the start / end of line.
@@ -31,20 +31,48 @@ USAGE
                             First, a match must start after whitespace (or at the
                             beginning of the line); if that returns no results, it
                             may match anywhere.
-                            Further use of CTRL-X W will copy the text including
-                            the next WORDs following the previous expansion in
-                            other contexts.
+                            Further use of CTRL-X CTRL-W will copy the text
+                            including the next WORDs following the previous
+                            expansion in other contexts.
+
+    CTRL-X g CTRL-W         Find matches for WORDs that start with keyword
+                            characters and a unique non-keyword character
+                            (possibly repeated) in front of the cursor, consist
+                            of non-blank characters and end at the next
+                            whitespace. In other words, like i_CTRL-X_CTRL-W but
+                            ending the completion base already before a different
+                            non-keyword character. This allows you to e.g.
+                            complete --quit-if-one-screen within quotes ("--quit)
+                            without having to use a manually selected base - the
+                            CTRL-X CTRL-W mapping would include the non-keyword
+                            double quote as well and therefore not find any
+                            matches.
+                            First, a match must start after whitespace (or at the
+                            beginning of the line); if that returns no results, it
+                            may match anywhere.
+                            Further use of CTRL-X g CTRL-W will copy the text
+                            including the next WORDs following the previous
+                            expansion in other contexts.
 
     {Visual}CTRL-X CTRL-W   Find matches for WORDs that start with selected text
                             and end at the next whitespace.
+                            (There's no {Visual}CTRL-X g CTRL-W mapping - it would
+                            be identical.)
 
 ### EXAMPLE
 
 To query the entire command argument --foo-bar (when "-" is not part of
 'iskeyword'), just type "--f" and trigger the completion.
+If you want to complete that within quotes ("'--foo-bar'"), the mapping will
+not work, as the quote will be picked up, too. You can prevent that either by
+visually selecting only the "--f" part (stopping short of the quote), or by
+using the alternative i\_CTRL-X\_g\_CTRL-W mapping, which automatically ends
+the completion base right before the second non-keyword character (the quote).
 
 With the relaxed search, "pos(" will complete the entire call "pos([1,2,3])"
-found in "searchpos([1,2,3])".
+found in "searchpos([1,2,3])". If you want to complete that within Markdown
+code formatting "`pos(", use the alternative i\_CTRL-X\_g\_CTRL-W mapping to
+locate the match while ignoring the surrounding backticks.
 
 INSTALLATION
 ------------------------------------------------------------------------------
@@ -86,11 +114,12 @@ values.
     let g:WORDComplete_complete = '.,w,b,u'
 
 If you want to use a different mapping, map your keys to the
- Plug>(WORDComplete) mapping target _before_ sourcing the script (e.g.
+&lt;Plug&gt;(WORDComplete) mapping target _before_ sourcing the script (e.g.
 in your vimrc):
 
     imap <C-x><C-w> <Plug>(WORDComplete)
     vmap <C-x><C-w> <Plug>(WORDComplete)
+    imap <C-x>g<C-w> <Plug>(WORDSameKeywordBaseComplete)
 
 CONTRIBUTING
 ------------------------------------------------------------------------------
@@ -101,6 +130,12 @@ https://github.com/inkarkat/vim-WORDComplete/issues or email (address below).
 HISTORY
 ------------------------------------------------------------------------------
 
+##### 1.10    21-Nov-2024
+- ENH: Add an alternative CTRL-X g CTRL-W insert mode mapping that only
+  considers a unique non-keyword character for the completion base, to ease
+  completion from a base that is not whitespace-delimited (e.g. from within
+  quotes).
+
 ##### 1.00    27-Sep-2017
 - First published version.
 
@@ -108,7 +143,7 @@ HISTORY
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2009-2017 Ingo Karkat -
+Copyright: (C) 2009-2024 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
-Maintainer:     Ingo Karkat <ingo@karkat.de>
+Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;

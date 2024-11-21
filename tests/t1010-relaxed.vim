@@ -1,10 +1,10 @@
 " Test relaxed completion of non-blank characters within a word.
 
 set completefunc=WORDComplete#WORDComplete
-call WORDComplete#Expr()    " Initialize script variables.
+call WORDComplete#Expr('WORDComplete#WORDComplete')    " Initialize script variables.
 edit WORDComplete.txt
 
-source ~/.vim/tests/CompleteHelper/helpers/completetest.vim
+runtime tests/helpers/completetest.vim
 call vimtest#StartTap()
 call vimtap#Plan(3)
 call IsMatchesInIsolatedLine('cra', ['crazy:name'], 'relaxed match for cra')

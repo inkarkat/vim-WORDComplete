@@ -1,11 +1,11 @@
 " Test completion from selected base.
 
 set completefunc=WORDComplete#WORDComplete
-call WORDComplete#Expr()    " Initialize script variables.
-let g:SelectBase = 'call WORDComplete#Selected()'
+call WORDComplete#Expr('WORDComplete#WORDComplete')    " Initialize script variables.
+let g:SelectBase = "call WORDComplete#Selected('WORDComplete#WORDComplete')"
 edit WORDComplete.txt
 
-source ~/.vim/tests/CompleteHelper/helpers/completetest.vim
+runtime tests/helpers/completetest.vim
 call vimtest#StartTap()
 call vimtap#Plan(5)
 call IsMatchesInContext('prefixed:', '', 'doesNotExist', [], 'no matches for doesNotExist')
